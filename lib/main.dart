@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Projeto Evo',
       theme: ThemeData.dark(),
-      home: Home(),
+      home: const Home(),
     );
   }
 }
