@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gastos_gerais_flutter/components/MesAtual/MesAtual.dart';
-import 'package:gastos_gerais_flutter/types/InputType.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -12,8 +11,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final TextEditingController controllerTitulo = TextEditingController();
   final TextEditingController controllerValor = TextEditingController();
-
-  controleText() {}
 
   @override
   Widget build(BuildContext context) {
@@ -60,9 +57,6 @@ class _HomeState extends State<Home> {
                   onPressed: () {
                     final String nome = controllerTitulo.text;
                     final String valor = controllerValor.text;
-
-                    final InputType produtoNovo = InputType(nome, valor);
-                    print(produtoNovo);
                   },
                   child: const Icon(
                     Icons.add,

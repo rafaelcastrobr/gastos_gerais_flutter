@@ -6,9 +6,4 @@ class InputType {
     this.titulo,
     this.valor,
   );
-
-  @override
-  String toString() {
-    return 'Entrada{titulo: $titulo, valor: $valor}';
-  }
 }
