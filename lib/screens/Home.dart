@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:gastos_gerais_flutter/components/MesAtual/MesAtual.dart';
+import 'package:gastos_gerais_flutter/models/Dados_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -9,8 +13,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final TextEditingController controllerTitulo = TextEditingController();
-  final TextEditingController controllerValor = TextEditingController();
+  final TextEditingController _controllerTitulo = TextEditingController();
+  final TextEditingController _controllerValor = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +30,7 @@ class _HomeState extends State<Home> {
                 color: Colors.amberAccent,
               ),
               TextField(
-                controller: controllerTitulo,
+                controller: _controllerTitulo,
                 decoration: const InputDecoration(
                   prefixIcon: Icon(
                     Icons.title_outlined,
@@ -38,7 +42,7 @@ class _HomeState extends State<Home> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 50, 0),
                 child: TextField(
-                  controller: controllerValor,
+                  controller: _controllerValor,
                   decoration: const InputDecoration(
                     prefixIcon: Icon(
                       Icons.attach_money_sharp,
@@ -55,21 +59,48 @@ class _HomeState extends State<Home> {
                       backgroundColor: Colors.amberAccent,
                       foregroundColor: Colors.black54),
                   onPressed: () {
-                    final String nome = controllerTitulo.text;
-                    final String valor = controllerValor.text;
+                    _entradas();
+                    _exibeDados();
+                    setState(() {});
                   },
                   child: const Icon(
                     Icons.add,
                   ),
                 ),
               ),
-              const MesAtual(),
-              Text(controllerTitulo.text),
-              Text(controllerValor.text),
+              //MesAtual(),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _entradas() {
+    Dados newDados = Dados(
+      titulo: _controllerTitulo.text,
+      valor: _controllerValor.text,
+    );
+
+    print(newDados);
+    _salvaDados(newDados);
+  }
+
+  void _salvaDados(Dados dados) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(
+      "DADOS_USER",
+      jsonEncode(dados.toJson()),
+    );
+  }
+
+  void _exibeDados() async {
+    Dados pegaUsuario = await _getSalvaUsuario();
+  }
+
+  Future<Dados> _getSalvaUsuario() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? jsonUser = prefs.getString("DADOS_USER");
+    print(jsonUser);
   }
 }
